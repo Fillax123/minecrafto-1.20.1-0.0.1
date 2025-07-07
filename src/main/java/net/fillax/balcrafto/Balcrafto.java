@@ -1,7 +1,11 @@
-package net.fillax.minecrafto;
+package net.fillax.balcrafto;
 
 import com.mojang.logging.LogUtils;
+import net.fillax.balcrafto.block.modBlocks;
+import net.fillax.balcrafto.item.ModCreativeModTabs;
+import net.fillax.balcrafto.item.modItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -16,17 +20,23 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(Minecrafto.MODID)
-public class Minecrafto
+@Mod(Balcrafto.MODID)
+public class Balcrafto
 {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "minecrafto";
+    public static final String MODID = "balcrafto";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public Minecrafto(FMLJavaModLoadingContext context)
+    public Balcrafto(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
+
+
+        ModCreativeModTabs.register(modEventBus);
+        modItems.register(modEventBus);
+        modBlocks.register(modEventBus);
+
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -49,7 +59,10 @@ public class Minecrafto
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        /* if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(modItems.JOKER);
+            event.accept(modItems.JOLLY_JOKER);
+        }*/
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
